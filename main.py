@@ -34,7 +34,7 @@ head_pat = re.compile(
     r"UPC:\s*(?P<upc>\d+)\s*"
     r"Desc:\s*(?P<desc>.+)\s*"
     r"Pack:\s*(?P<pack>\d+)\s*"
-    r"Size:\s*(?P<size>\d+)\s*"
+    r"Size:\s*(?P<size>[0-9.,]+)\s*"
     r"(?P<example>\w+)"
 )
 
@@ -125,8 +125,10 @@ def process_pdf(path: Path):
 
 
 def main():
-    for file in glob.glob("*.pdf"):
-        path = Path(file)
+    paths = [Path(file) for file in glob.glob("*.pdf")]
+    print(f"Found ({len(paths)}) files: {paths}")
+    input("\n<Press ENTER to continue>\n")
+    for path in paths:
         process_pdf(path)
 
 
@@ -134,4 +136,4 @@ if __name__ == "__main__":
     t0 = time.perf_counter()
     main()
     t1 = time.perf_counter()
-    print(f"Done in {t1 - t0:0.3f} seconds")
+    print(f"\nDone in {t1 - t0:0.3f} seconds")
