@@ -1,4 +1,5 @@
 commitizen
 coverage
 pre-commit
+pyinstaller
 pytest
