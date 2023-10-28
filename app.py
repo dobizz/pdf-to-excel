@@ -5,12 +5,15 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
+from pdf2excel import __version__
 from pdf2excel.tasks import process_pdf
 
 
 def main():
+    logging.info(f"pdf2excel v{__version__}")
     try:
         # search for pdf files in current directory
+        logging.info("Searching for *.pdf files in current directory")
         files = [Path(file) for file in glob.glob("*.pdf")]
         file_count = len(files)
         for file in files:
@@ -38,6 +41,8 @@ def main():
     except Exception as e:
         logging.error(f"Uncaught Exception {e}")
 
+    finally:
+        input("\n[Press ENTER to exit]")
 
 if __name__ == "__main__":
     logging.basicConfig(
