@@ -1,5 +1,5 @@
 # -*- mode: python ; coding: utf-8 -*-
-version = "0.0.0"
+version = "0.1.0"
 
 a = Analysis(
     ['app.py'],
