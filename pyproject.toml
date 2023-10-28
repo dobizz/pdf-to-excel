@@ -16,4 +16,5 @@ major_version_zero = true
 version_files = [
   "src/pdf2excel/__init__.py:__version__",
   "app.spec:version",
+  "README.md",
 ]

@@ -21,7 +21,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='pdf2excel v{}'.format(version),
+    name='pdf2excel_v{}'.format(version),
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
