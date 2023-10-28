@@ -8,14 +8,21 @@ import pdfplumber
 from pdf2excel.regexes import core_pat, entry_pat, head_pat
 
 
-def process_pdf(path: Path):
+def process_pdf(path: Path) -> None:
+    """
+    Run extraction on PDF file in path
+
+    Args:
+        path (Path): path to PDF file
+    """
     logging.info(f"Processing file {path}")
 
-    # extract lines
+    # extract lines from pdf
     with pdfplumber.open(path) as pdf:
         all_lines = []
         for page in pdf.pages:
             text = page.extract_text(keep_blank_chars=True)
+            # skip page if does not match core pattern
             core = re.search(core_pat, text)
             if not core:
                 continue
@@ -27,8 +34,10 @@ def process_pdf(path: Path):
     heads = []
     entries = []
     for line in all_lines:
+        # use regex to search line for data
         head_search = head_pat.search(line)
         entry_search = entry_pat.search(line)
+        # save data from line (if found) to respective group
         if head_search:
             head = head_search.groupdict()
             heads.append(head)
@@ -36,7 +45,7 @@ def process_pdf(path: Path):
             entry = entry_search.groupdict()
             entries.append(entry)
 
-    # write output
+    # write output to excel file(s)
     df1 = pd.DataFrame(heads)
     df2 = pd.DataFrame(entries)
     df1.to_excel(
