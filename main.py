@@ -1,26 +1,10 @@
 import glob
 import re
 import time
-from dataclasses import dataclass
-from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
 import pdfplumber
-
-
-@dataclass
-class Row:
-    PO_Nbr: str
-    PO_Data: datetime
-    Inv_Nbr: str
-    Rcv_Date: datetime
-    Rcv_Wgt: float
-    Paid_Net: float
-    PO_Net: float
-    Paid_List: float
-    Frt_Allow: int
-
 
 # regex patterns
 core_pat = re.compile(
