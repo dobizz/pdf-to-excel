@@ -125,7 +125,7 @@ def process_pdf(path: Path):
 
 
 def main():
-    paths = [Path(file) for file in glob.glob("*/*.pdf", recursive=True)]
+    paths = [Path(file) for file in glob.glob("*.pdf")]
     print(f"Found ({len(paths)}) files: {paths}")
     input("\n<Press ENTER to continue>\n")
     for path in paths:
