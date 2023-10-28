@@ -1,3 +1,4 @@
+import logging
 import re
 from pathlib import Path
 
@@ -8,7 +9,7 @@ from pdf2excel.regexes import core_pat, entry_pat, head_pat
 
 
 def process_pdf(path: Path):
-    print(f"Processing file {path}")
+    logging.info(f"Processing file {path}")
 
     # extract lines
     with pdfplumber.open(path) as pdf:
