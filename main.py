@@ -41,7 +41,7 @@ head_pat = re.compile(
 entry_pat = re.compile(
     r"(?P<po_nbr>\d+)\s*"
     r"(?P<po_date>\d{1,2}/\d{1,2}/\d{2,4})\s*"
-    r"(?P<inv_nbr>\d+)\s*"
+    r"(?P<inv_nbr>\w+)\s*"
     r"(?P<inv_date>\d{1,2}/\d{1,2}/\d{2,4})\s*"
     r"(?P<rcv_date>\d{1,2}/\d{1,2}/\d{2,4})\s*"
     r"(?P<rcv_wgt>[0-9.,]+)\s*"
