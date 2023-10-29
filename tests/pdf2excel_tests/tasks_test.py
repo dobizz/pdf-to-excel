@@ -29,6 +29,7 @@ class TestProcessPDF:
         mock_context.__enter__.return_value = mock_pdf
         mock_pdf.pages = [
             mock_invalid_page,
+            mock_invalid_page,
             mock_valid_page,
         ]
         with patch("pdfplumber.open", return_value=mock_context), patch(
