@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, Mock, patch
 
 import pytest
 
-from pdf2excel.tasks import process_pdf
+from pdf2excel.tasks import process_invoice_page, process_pdf
 
 filename = "__test__.pdf"
 
@@ -29,9 +29,14 @@ class TestProcessPDF:
         mock_context.__enter__.return_value = mock_pdf
         mock_pdf.pages = [
             mock_invalid_page,
+            mock_invalid_page,
             mock_valid_page,
         ]
         with patch("pdfplumber.open", return_value=mock_context), patch(
             "pandas.DataFrame.to_excel", return_value=None
         ):
             process_pdf(path=Path("__test__.pdf"))
+
+    def test_process_invoice_page(self, valid_invoice_page, invalid_page):
+        assert process_invoice_page(valid_invoice_page)
+        assert process_invoice_page(invalid_page) == {}

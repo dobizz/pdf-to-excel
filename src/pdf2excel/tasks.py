@@ -5,23 +5,52 @@ from pathlib import Path
 import pandas as pd
 import pdfplumber
 
-from pdf2excel.regexes import core_pat, entry_pat, head_pat
+from pdf2excel.regexes import core_pat, entry_pat, head_pat, invoice_page_pat
 
 
-def process_pdf(path: Path) -> None:
+def process_invoice_page(text: str) -> dict:
+    """
+    Process the invoce page and parse the needed data
+
+    Args:
+        text (str): text of invoce page
+
+    Returns:
+        dict: dictionary of field values
+    """
+    res = invoice_page_pat.search(text)
+    if res is None:
+        return {}
+    data = res.groupdict()
+    address = [
+        data.pop("address_1"),
+        data.pop("address_2"),
+    ]
+    address = " ".join(address).strip()
+    data["address"] = address
+    return data
+
+
+def process_pdf(path: Path) -> dict:
     """
     Run extraction on PDF file in path
 
     Args:
         path (Path): path to PDF file
+
+    Returns:
+        dict: dictionary of field values found in first page.
     """
     logging.info(f"Processing file {path}")
 
     # extract lines from pdf
     with pdfplumber.open(path) as pdf:
         all_lines = []
-        for page in pdf.pages:
+        for idx, page in enumerate(pdf.pages):
             text = page.extract_text(keep_blank_chars=True)
+            if idx == 0:
+                invoice_data = process_invoice_page(text)
+                continue
             # skip page if does not match core pattern
             core = re.search(core_pat, text)
             if not core:
@@ -82,3 +111,4 @@ def process_pdf(path: Path) -> None:
             "Claim",
         ],
     )
+    return invoice_data
