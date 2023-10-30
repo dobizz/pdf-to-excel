@@ -22,13 +22,13 @@ Requires developer dependencies installed, specifically `pyinstaller`
 pyinstaller app.spec
 ```
 
-This will generate `pdf2excel_v0.1.0.exe` inside the `dist` directory which will be created automatically
+This will generate `pdf2excel_v0.2.0.exe` inside the `dist` directory which will be created automatically
 ```bash
 ├── README.md
 ├── app.py
 ├── app.spec
 ├── dist
-│   └── pdf2excel_v0.1.0.exe
+│   └── pdf2excel_v0.2.0.exe
 ├── pyproject.toml
 ├── requirements-dev.txt
 ├── requirements.txt
