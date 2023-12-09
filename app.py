@@ -2,8 +2,10 @@ import glob
 import logging
 import sys
 import time
+import tkinter as tk
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+from tkinter import filedialog
 
 import pandas as pd
 
@@ -11,11 +13,11 @@ from pdf2excel import __version__
 from pdf2excel.tasks import process_pdf
 
 
-def main():
+def main(directory: str):
     logging.info(f"pdf2excel v{__version__}")
     try:
         # search for pdf files in current directory
-        logging.info("Searching for *.pdf files in current directory")
+        logging.info(f"Searching for *.pdf files in {directory}")
         files = [Path(file) for file in glob.glob("*.pdf")]
         file_count = len(files)
         for file in files:
@@ -89,4 +91,12 @@ if __name__ == "__main__":
         datefmt="%d/%b/%Y %H:%M:%S",
         stream=sys.stdout,
     )
-    main()
+    # create tk instance and hide root panel
+    root = tk.Tk()
+    root.withdraw()
+    # prompt user for directory to search for files
+    directory = filedialog.askdirectory(
+        title="Select dir to search for PDF files",
+    )
+    # run main routine
+    main(directory=directory)
