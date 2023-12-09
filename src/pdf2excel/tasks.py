@@ -1,6 +1,8 @@
 import logging
 import re
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+from typing import List
 
 import pandas as pd
 import pdfplumber
@@ -112,3 +114,43 @@ def process_pdf(path: Path) -> dict:
         ],
     )
     return invoice_data
+
+
+def process_1(files: List[Path], max_workers: int = 8) -> dict:
+    with ThreadPoolExecutor(max_workers=max_workers) as pool:
+        results = pool.map(process_pdf, files)
+    invoice_data = list(results)
+    # generate output for invoices
+    df = pd.DataFrame(invoice_data)
+    df.to_excel(
+        "invoice_summary.xlsx",
+        index=False,
+        columns=[
+            "bill_to",
+            "vendor_name",
+            "address",
+            "sv_barcode",
+            "audit_period",
+            "claim_no",
+            "claim_date",
+            "claim_amount",
+            "claim_code",
+            "description",
+            "region",
+            "category",
+        ],
+        header=[
+            "Bill_To",
+            "Vendor_Name",
+            "Address",
+            "SV_Barcode",
+            "Audit_Period",
+            "Claim_No",
+            "Claim_Date",
+            "Claim_Amount",
+            "Claim_Code",
+            "Description",
+            "Region",
+            "Category",
+        ],
+    )
