@@ -154,3 +154,19 @@ def process_1(files: List[Path], max_workers: int = 8) -> dict:
             "Category",
         ],
     )
+
+if __name__ == "__main__":
+    deal_sheet_type = re.compile(
+        r"Deal\s*Sheet\s*Type:\s*(?P<deal_sheet_type>\w*)"
+    )
+    path = Path("loms/99P6537373-LOMS.pdf")
+    with pdfplumber.open(path) as pdf:
+        all_lines = []
+        for idx, page in enumerate(pdf.pages):
+            text = page.extract_text(keep_blank_chars=True)
+            res=deal_sheet_type.findall(text)
+            if res:
+                # dst=res.groupdict()
+                # print(dst)
+                print(res)
+            breakpoint

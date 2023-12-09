@@ -45,3 +45,7 @@ invoice_page_pat = re.compile(
     r"Region\s*(?P<region>.*)\s*"
     r"Category\s*(?P<category>.*)"
 )
+
+deal_sheet_type = re.compile(
+    r"Deal\s*Sheet\s*Type:\s*(?P<deal_sheet_type>\w*)"
+)
